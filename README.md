@@ -50,7 +50,7 @@ class WelcomeController < ActionController::Base
   private
 
     def bookmark_resource
-      resource = Halyuken::Resource.new '/bookmarks/1', @bookmark
+      resource = Halyuken::Resource.new '/bookmarks/1', resourceType: :bookmark, bookmark: @bookmark
       resource_author = Halyuken::Resource.new '/authors/1', @author
 
       resource.link :doc, '/doc/bookmarks'
