@@ -66,3 +66,13 @@ class WelcomeController < ActionController::Base
 
 end
 ```
+
+And, as response you get:
+
+```
+curl -H 'Accept':'application/hal+json' http://localhost:3000
+```
+
+```javascript
+{"resourceType":"bookmark","bookmark":{"name":"dgmike","url":"http://dgmike.com.br"},"_links":{"self":{"href":"/bookmarks/1"},"doc":{"href":"/doc/bookmarks"}},"_embedded":{"author":{"id":1,"name":"Michael","_links":{"self":{"href":"/authors/1"}}},"categories":[{"id":1,"name":"programming","_links":{"self":{"href":"/category/1"}}},{"id":2,"name":"technology","_links":{"self":{"href":"/category/2"}}}]}}
+```
