@@ -5,9 +5,8 @@ module Halyuken
   class Resource
     attr_accessor :resource
 
-    def initialize(self_link, object)
-      @resource = Halibut::Core::Resource.new
-      @resource.link self_link, content_type: 'application/hal+json'
+    def initialize(self_link, object = {})
+      @resource = Halibut::Core::Resource.new self_link
       object.each do |key, value|
         @resource.set_property key, value
       end
@@ -20,7 +19,7 @@ module Halyuken
 
     def push(name, resource)
       resource = resource.resource if Halyuken::Resource == resource.class
-      @resource.add_embed_resource name, resource
+      @resource.add_embedded_resource name, resource
     end
 
     def link(*attrs)
