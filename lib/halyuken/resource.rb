@@ -5,8 +5,9 @@ module Halyuken
   class Resource
     attr_accessor :resource
 
-    def initialize(object, self_link)
-      @resource = Halibut::Core::Resource.new self_link
+    def initialize(self_link, object)
+      @resource = Halibut::Core::Resource.new
+      @resource.link self_link, content_type: 'application/hal+json'
       object.each do |key, value|
         @resource.set_property key, value
       end
