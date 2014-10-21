@@ -1,6 +1,6 @@
 # Halyuken
 
-Generate simple hal+json responses for Rails Framework
+Generate simple [hal+json](http://blog.stateless.co/post/13296666138/json-linking-with-hal) responses for Rails Framework
 
 ## Installation
 
