@@ -1,6 +1,6 @@
 # Halyuken
 
-TODO: Write a gem description
+Generate simple hal+json responses for Rails Framework
 
 ## Installation
 
@@ -20,12 +20,49 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+Use `Halyuken::Resource` to create your resources:
 
-## Contributing
+```ruby
+object = { name: 'Michael' }
+resource = Halyuken::Resource.new '/link_to_resource', object
+```
 
-1. Fork it ( https://github.com/[my-github-username]/halyuken/fork )
-2. Create your feature branch (`git checkout -b my-new-feature`)
-3. Commit your changes (`git commit -am 'Add some feature'`)
-4. Push to the branch (`git push origin my-new-feature`)
-5. Create a new Pull Request
+Use `render_hal` to render your resource.
+
+This gem register `hal` as `application/hal+json` as mimetype in Rails.
+
+Follow code shows a rails controller sample.
+
+```ruby
+class WelcomeController < ActionController::Base
+
+  def index
+    @bookmark = { name: 'dgmike', url: 'http://dgmike.com.br' }
+    @author = { id: 1, name: 'Michael' }
+    @categories = [{id: 1, name: 'programming'}, {id: 2, name: 'technology'}]
+
+    respond_to do |format|
+      format.html { render body: "<a href='#{@bookmark[:url]}'>#{@bookmark[:name]}</a>" }
+      format.hal { render_hal bookmark_resource }
+    end
+  end
+
+  private
+
+    def bookmark_resource
+      resource = Halyuken::Resource.new '/bookmarks/1', @bookmark
+      resource_author = Halyuken::Resource.new '/authors/1', @author
+
+      resource.link :doc, '/doc/bookmarks'
+
+      resource.embed :author, resource_author
+      @categories.each do |category|
+        resource_category = Halyuken::Resource.new "/category/#{category[:id]}", category
+        resource.push :categories, resource_category
+      end
+
+      resource
+    end
+
+end
+```
